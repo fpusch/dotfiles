@@ -52,3 +52,19 @@ colorscheme gruvbox
 highlight Normal guibg=none
 
 " remaps
+let mapleader = " "
+nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep for > ")})<CR>
+
+" autocommands
+
+" removes all trailing whitespace
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+augroup fpusch
+    autocmd!
+    autocmd BufWritePre * :call TrimWhitespace()
+augroup END
