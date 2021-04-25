@@ -41,7 +41,7 @@ set termguicolors
 
 " scrolling
 set scrolloff=8
-set sidescrolloff=8
+set sidescrolloff=4
 
 
 " more space for commands
