@@ -17,3 +17,5 @@
     ci = commit
     st = status
     staged = diff --staged
+[commit]
+    template = ~/.gitmessage
