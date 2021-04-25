@@ -1,0 +1,19 @@
+[user]
+    name = <name>
+    email = <email>
+[core]
+    editor = nvim
+[init]
+    defaultBranch = main
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+[push]
+    default = upstream
+[alias]
+    br = branch
+    co = checkout
+    ci = commit
+    st = status
+    staged = diff --staged
