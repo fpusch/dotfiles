@@ -1,0 +1,4 @@
+alias mkdir='mkdir -p'
+alias g='git'
+alias gs='git status -sb'
+alias ll='ls -lah'
