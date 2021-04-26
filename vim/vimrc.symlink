@@ -43,6 +43,8 @@ set termguicolors
 set scrolloff=8
 set sidescrolloff=4
 
+" command autocomplete
+set wildmenu
 
 " more space for commands
 set cmdheight=2
@@ -53,7 +55,6 @@ highlight Normal guibg=none
 
 " remaps
 let mapleader = " "
-nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep for > ")})<CR>
 
 " autocommands
 
