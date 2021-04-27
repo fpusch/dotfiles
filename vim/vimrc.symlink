@@ -45,9 +45,13 @@ set sidescrolloff=4
 
 " command autocomplete
 set wildmenu
+set wildignore+=*.zip
+set wildignore+=**/node_modules/*
+set wildignore+=**/.git/*
 
-" more space for commands
-set cmdheight=2
+" command wait timeout
+set timeoutlen=1000
+set ttimeoutlen=0
 
 " quick updates
 set updatetime=50
