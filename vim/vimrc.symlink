@@ -49,6 +49,9 @@ set wildmenu
 " more space for commands
 set cmdheight=2
 
+" quick updates
+set updatetime=50
+
 " colors
 colorscheme gruvbox
 highlight Normal guibg=none
