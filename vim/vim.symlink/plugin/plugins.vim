@@ -1,5 +1,6 @@
 " plugins (managed with vim-plug)
 call plug#begin('~/.vim/plugged')
+
 " colors
 Plug 'gruvbox-community/gruvbox'
 
@@ -18,7 +19,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " lsp
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
+
 " undotree
 
 call plug#end()
