@@ -4,5 +4,5 @@ nnoremap <leader>pf :lua require('telescope.builtin').find_files()<CR>
 
 " telescope git
 nnoremap <leader>gb :lua require('telescope.builtin').git_branches()<CR>
-nnoremap <leader>gc :lua require('telescope.builtin').git_commits()<CR>
+nnoremap <leader>gcf :lua require('telescope.builtin').git_commits()<CR>
 nnoremap <leader>gf :lua require('telescope.builtin').git_files()<CR>
