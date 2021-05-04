@@ -4,6 +4,12 @@ call plug#begin('~/.vim/plugged')
 " colors
 Plug 'gruvbox-community/gruvbox'
 
+" icons
+Plug 'kyazdani42/nvim-web-devicons'
+
+" statusline
+Plug 'hoob3rt/lualine.nvim'
+
 " requirements
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
