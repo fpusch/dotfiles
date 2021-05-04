@@ -29,5 +29,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 
 " undotree
+Plug 'mbbill/undotree'
 
 call plug#end()
