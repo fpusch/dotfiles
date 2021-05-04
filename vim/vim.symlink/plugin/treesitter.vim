@@ -1,1 +1,1 @@
-lua require('treesitter')
+lua require('fpusch/treesitter')

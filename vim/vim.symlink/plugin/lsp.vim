@@ -30,6 +30,7 @@ let g:compe.source.vsnip = v:true
 " neovim built-in lsp remaps
 nnoremap <leader>vc :lua vim.lsp.buf.code_action()<CR>
 nnoremap <leader>vd :lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>vD :lua vim.lsp.buf.declaration()<CR>
 nnoremap <leader>vh :lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>vi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>vrn :lua vim.lsp.buf.rename()<CR>
@@ -41,4 +42,4 @@ nnoremap <leader>vsh :lua vim.lsp.buf.signature_help()<CR>
 inoremap <silent><expr> <CR> compe#confirm('<CR>')
 
 " use lua for language server setup
-lua require('lsp')
+lua require('fpusch/lsp')

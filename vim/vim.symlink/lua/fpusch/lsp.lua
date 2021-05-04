@@ -5,4 +5,4 @@ end
 
 -- languages
 -- typescript (run `npm i -g typescript typescript-language-server`)
-require'lspconfig'.tsserver.setup{ on_attach=on_attach }
+require'lspconfig'.tsserver.setup{}

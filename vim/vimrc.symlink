@@ -46,6 +46,7 @@ set sidescrolloff=4
 
 " command autocomplete
 set wildmenu
+set wildmode=longest,list,full
 set wildignore+=*.zip
 set wildignore+=**/node_modules/*
 set wildignore+=**/.git/*
@@ -66,7 +67,7 @@ let mapleader = " "
 
 " autocommands
 
-" removes all trailing whitespace
+" removes all trailing whitespace on write
 fun! TrimWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e
