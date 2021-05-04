@@ -10,6 +10,7 @@ Plug 'nvim-lua/plenary.nvim'
 
 " search, fzf, picker, sorter
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " more git actions
 Plug 'tpope/vim-fugitive'
