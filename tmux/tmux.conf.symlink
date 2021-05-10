@@ -11,11 +11,20 @@ bind C-a send-prefix
 set -g status-bg '#666666'
 set -g status-fg '#aaaaaa'
 
+# start from 1
+set -g base-index 1
+
 # mouse
 set -g mouse on
 
 # enable vim mode
 set-window-option -g mode-keys vi
+
+# neovim recommendations
+set -sg escape-time 10
+set -g focus-events on
+set -g default-terminal "screen-256color"
+set -sa terminal-overrides ',xterm-256color:RGB'
 
 # use vim-like keys for splits and windows
 bind-key v split-window -h
@@ -24,3 +33,9 @@ bind-key h select-pane -L
 bind-key j select-pane -D
 bind-key k select-pane -U
 bind-key l select-pane -R
+
+# source tmux.conf
+bind r source-file ~/.tmux.conf
+
+# little TODO scratchpad
+bind -r T split-window -b -p 35 -h -c "#{pane_current_path}" "[[ -e TODO.md ]] && nvim TODO.md || nvim ~/.dotfiles/TODO.md"
