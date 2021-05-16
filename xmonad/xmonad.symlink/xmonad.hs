@@ -157,7 +157,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
                                  ||| grid
 
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = ["www", "dev", "3", "4", "5", "6", "7", "8", "9"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
@@ -241,7 +241,7 @@ main = do
         , logHook = dynamicLogWithPP $ xmobarPP
             -- settings for xmonad
               { ppOutput = \x -> hPutStrLn xmproc1 x                          -- xmobar on monitor 1
-              , ppCurrent = xmobarColor "#ffffff" "" . wrap "[" "]"           -- Current workspace
+              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"           -- Current workspace
               , ppVisible = xmobarColor "#98be65" ""                          -- Visible but not current workspace
               , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""             -- Hidden workspaces
               , ppTitle = xmobarColor "#ffffff" "" . shorten 60               -- Title of active window
