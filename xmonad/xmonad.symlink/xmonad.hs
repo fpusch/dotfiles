@@ -225,7 +225,7 @@ myKeys =
 main :: IO ()
 main = do
     -- launch xmobar only on secondary screen
-    xmproc0 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc0"
+    xmproc1 <- spawnPipe "xmobar -x 1"
     -- launch xmonad
     xmonad $ def
         { manageHook         = myManageHook
@@ -240,7 +240,7 @@ main = do
         , focusedBorderColor = myFocusColor
         , logHook = dynamicLogWithPP $ xmobarPP
             -- settings for xmonad
-              { ppOutput = \x -> hPutStrLn xmproc0 x                          -- xmobar on monitor 1
+              { ppOutput = \x -> hPutStrLn xmproc1 x                          -- xmobar on monitor 1
               , ppCurrent = xmobarColor "#ffffff" "" . wrap "[" "]"           -- Current workspace
               , ppVisible = xmobarColor "#98be65" ""                          -- Visible but not current workspace
               , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""             -- Hidden workspaces
