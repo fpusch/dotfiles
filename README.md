@@ -4,6 +4,8 @@ Here's a more or less random assortment of dotfiles I use for
 - `git`
 - `tmux`
 - `vim` / `neovim`
+- `xnomad`
+- `xmobar`
 - `zsh`
 
 These are more or less based on the excellent work at
