@@ -117,9 +117,6 @@ monocle  = renamed [Replace "monocle"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 20 Full
-floats   = renamed [Replace "floats"]
-           $ smartBorders
-           $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
            $ smartBorders
            $ addTabs shrinkText myTabTheme
@@ -149,15 +146,14 @@ myShowWNameTheme = def
     }
 
 -- The layout hook
-myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
+myLayoutHook = avoidStruts $ mouseResize $ windowArrange
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                myDefaultLayout =     withBorder myBorderWidth tall
                                  ||| noBorders monocle
-                                 ||| floats
                                  ||| grid
 
-myWorkspaces = ["www", "dev", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = ["www", "dev", "game", "4", "5", "6", "7", "8", "9", "0"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
@@ -225,7 +221,7 @@ myKeys =
 main :: IO ()
 main = do
     -- launch xmobar only on secondary screen
-    xmproc1 <- spawnPipe "xmobar -x 1"
+    xmproc1 <- spawnPipe "xmobar -x 0"
     -- launch xmonad
     xmonad $ def
         { manageHook         = myManageHook
