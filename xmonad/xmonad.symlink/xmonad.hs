@@ -1,44 +1,34 @@
-  -- Base
+-- Base
 import XMonad
 import System.Directory
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
 
-    -- Actions
+-- Actions
 import XMonad.Actions.CopyWindow (kill1)
-import XMonad.Actions.CycleWS (Direction1D(..), moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.CycleWS (nextScreen, prevScreen)
 import XMonad.Actions.MouseResize
-import XMonad.Actions.Promote
-import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
-import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (sinkAll, killAll)
-import qualified XMonad.Actions.Search as S
 
-    -- Data
-import Data.Char (isSpace, toUpper)
-import Data.Maybe (fromJust)
+-- Data
 import Data.Monoid
-import Data.Maybe (isJust)
-import Data.Tree
 import qualified Data.Map as M
 
-    -- Hooks
+-- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.WorkspaceHistory
 
-    -- Layouts
+-- Layouts
 import XMonad.Layout.GridVariants (Grid(Grid))
-import XMonad.Layout.SimplestFloat
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
 
-    -- Layouts modifiers
+-- Layouts modifiers
 import XMonad.Layout.LayoutModifier
-import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.LimitWindows (limitWindows)
 import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
@@ -48,14 +38,14 @@ import XMonad.Layout.ShowWName
 import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
-import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
+import XMonad.Layout.WindowArranger (windowArrange)
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
-   -- Utilities
+-- Utilities
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
+import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce
 
 myFont :: String
@@ -66,12 +56,6 @@ myModMask = mod4Mask        -- Sets modkey to super/windows key
 
 myTerminal :: String
 myTerminal = "alacritty"    -- Sets default terminal
-
-myBrowser :: String
-myBrowser = "firefox"       -- Sets qutebrowser as browser
-
-myEditor :: String
-myEditor = "nvim"           -- Sets nvim as editor
 
 myBorderWidth :: Dimension
 myBorderWidth = 1           -- Sets border width for windows
@@ -104,7 +88,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm ]
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
--- layout definitions
+-- Layouts
 tall     = renamed [Replace "tall"]
            $ smartBorders
            $ addTabs shrinkText myTabTheme
@@ -173,36 +157,34 @@ myManageHook = composeAll
 myKeys :: [(String, X ())]
 myKeys =
     -- Xmonad
-        [ ("M-C-r", spawn "xmonad --recompile")  -- Recompiles xmonad
-        , ("M-S-r", spawn "xmonad --restart")    -- Restarts xmonad
-        , ("M-S-q", io exitSuccess)              -- Quits xmonad
+        [ ("M-S-q", io exitSuccess)                     -- Quits xmonad
 
     -- Run prompt
-        , ("M-p", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
+        , ("M-p", spawn "dmenu_run -i -p \"Run: \"")    -- Dmenu
 
     -- Run application
         , ("M-<Return>", spawn (myTerminal))
 
     -- Kill windows
-        , ("M-S-c", kill1)     -- Kill the currently focused client
-        , ("M-S-a", killAll)   -- Kill all windows on current workspace
+        , ("M-S-c", kill1)                              -- Kill the currently focused client
+        , ("M-S-a", killAll)                            -- Kill all windows on current workspace
 
     -- Workspaces
-        , ("M-.", nextScreen)  -- Switch focus to next monitor
-        , ("M-,", prevScreen)  -- Switch focus to prev monitor
+        , ("M-.", nextScreen)                           -- Switch focus to next monitor
+        , ("M-,", prevScreen)                           -- Switch focus to prev monitor
 
     -- Floating windows
-        , ("M-f", sendMessage (T.Toggle "floats")) -- toggles "floats" layout on / off
-        , ("M-t", withFocused $ windows . W.sink)  -- sink current focussed window to tile
-        , ("M-S-t", sinkAll)                       -- sink all windows to tile
+        , ("M-f", sendMessage (T.Toggle "floats"))      -- toggles "floats" layout on / off
+        , ("M-t", withFocused $ windows . W.sink)       -- sink current focussed window to tile
+        , ("M-S-t", sinkAll)                            -- sink all windows to tile
 
     -- Windows navigation
-        , ("M-m", windows W.focusMaster)  -- Move focus to the master window
-        , ("M-j", windows W.focusDown)    -- Move focus to the next window
-        , ("M-k", windows W.focusUp)      -- Move focus to the prev window
-        , ("M-S-m", windows W.swapMaster) -- Swap the focused window and the master window
-        , ("M-S-j", windows W.swapDown)   -- Swap focused window with next window
-        , ("M-S-k", windows W.swapUp)     -- Swap focused window with prev window
+        , ("M-m", windows W.focusMaster)                -- Move focus to the master window
+        , ("M-j", windows W.focusDown)                  -- Move focus to the next window
+        , ("M-k", windows W.focusUp)                    -- Move focus to the prev window
+        , ("M-S-m", windows W.swapMaster)               -- Swap the focused window and the master window
+        , ("M-S-j", windows W.swapDown)                 -- Swap focused window with next window
+        , ("M-S-k", windows W.swapUp)                   -- Swap focused window with prev window
 
     -- Layouts
         , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
@@ -220,7 +202,7 @@ myKeys =
 
 main :: IO ()
 main = do
-    -- launch xmobar only on secondary screen
+    -- launch xmobar only on one screen
     xmproc1 <- spawnPipe "xmobar -x 0"
     -- launch xmonad
     xmonad $ def
@@ -236,13 +218,13 @@ main = do
         , focusedBorderColor = myFocusColor
         , logHook = dynamicLogWithPP $ xmobarPP
             -- settings for xmonad
-              { ppOutput = \x -> hPutStrLn xmproc1 x                          -- xmobar on monitor 1
-              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"           -- Current workspace
-              , ppVisible = xmobarColor "#98be65" ""                          -- Visible but not current workspace
-              , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""             -- Hidden workspaces
-              , ppTitle = xmobarColor "#ffffff" "" . shorten 60               -- Title of active window
-              , ppSep =  "<fc=#666666> | </fc>"                    -- Separator character
-              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"            -- Urgent workspace
-              , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]                    -- order of things in xmobar
+              { ppOutput = \x -> hPutStrLn xmproc1 x                    -- xmobar on monitor 1
+              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"     -- Current workspace
+              , ppVisible = xmobarColor "#98be65" ""                    -- Visible but not current workspace
+              , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""       -- Hidden workspaces
+              , ppTitle = xmobarColor "#ffffff" "" . shorten 60         -- Title of active window
+              , ppSep =  "<fc=#666666> | </fc>"                         -- Separator character
+              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"      -- Urgent workspace
+              , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]              -- order of things in xmobar
               }
         } `additionalKeysP` myKeys
