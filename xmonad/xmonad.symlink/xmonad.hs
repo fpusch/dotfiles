@@ -153,7 +153,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange
                                  ||| noBorders monocle
                                  ||| grid
 
-myWorkspaces = ["www", "dev", "game", "4", "5", "6", "7", "8", "9", "0"]
+myWorkspaces = ["www", "music", "dev", "game", "5", "6", "7", "8", "mail"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
