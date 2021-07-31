@@ -13,8 +13,12 @@
     default = upstream
 [alias]
     br = branch
-    co = checkout
+    ca = commit --amend -C HEAD
     ci = commit
+    cleanup = !git remote prune origin && git gc && git clean -dfx && git stash clear
+    co = !git fetch && git checkout
+    fp = !git fetch origin && git rebase
+    rbi = rebase -i
     st = status
     staged = diff --staged
 [commit]
