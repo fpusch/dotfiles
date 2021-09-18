@@ -57,6 +57,9 @@ myModMask = mod4Mask        -- Sets modkey to super/windows key
 myTerminal :: String
 myTerminal = "alacritty"    -- Sets default terminal
 
+myEditor :: String
+myEditor = myTerminal ++ " - e nvim " -- Set neovim as editor
+
 myBorderWidth :: Dimension
 myBorderWidth = 1           -- Sets border width for windows
 
@@ -69,6 +72,8 @@ myFocusColor  = "#46d9ff"   -- Border color of focused windows
 myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "picom &"
+    spawnOnce "nm-applet &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 22 &"
     spawnOnce "feh --randomize --bg-fill ~/wallpapers/*"  -- feh set random wallpaper
     setWMName "LG3D"
 

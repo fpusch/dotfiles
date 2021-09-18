@@ -1,17 +1,30 @@
 -- http://projects.haskell.org/xmobar/
-Config { font    = "xft:mononoki Bold Nerd Font:weight=bold:pixelsize=12"
+Config { font    = "xft:mononoki Bold Nerd Font:weight=bold:pixelsize=10"
        , commands = [
                     -- Time and date
                       Run Date "%b %d %Y - %H:%M" "date" 50
-                      -- Cpu usage in percent
+                    -- Cpu usage in percent
                     , Run Cpu ["-t", "cpu: (<total>%)","-H","50","--high","red"] 20
-                      -- Ram used number and percent
+                    -- Ram used number and percent
                     , Run Memory ["-t", "mem: <used>M (<usedratio>%)"] 20
-                      -- Runs a standard shell command 'uname -r' to get kernel version
+                    -- Runs a standard shell command 'uname -r' to get kernel version
                     , Run Com "uname" ["-r"] "" 3600
-                    , Run Network "enp0s31f6" [ "-S", "True", "-t", "net: <rx> | <tx>" ] 20
+                    -- wired network
+                    -- , Run Network "eth0" [ "-S", "True", "-t", "net: <rx> | <tx>" ] 20
+                    -- wifi
+                    , Run Wireless "wlan0" [ "-t", "net: <essid> <quality>%" ] 5
+                    -- battery
+                    , Run Battery [
+                        "-t", "<acstatus>: <left>%",
+                        "--",
+                        --"-c", "charge_full",
+                        "-O", "ac",
+                        "-o", "bat",
+                        "-h", "green",
+                        "-l", "red"
+                    ] 60
                     , Run UnsafeStdinReader
                     ]
        , alignSep = "}{"
-       , template = "%UnsafeStdinReader% }{  <fc=#666666>|</fc>  %uname% <fc=#666666>|</fc>  <fc=#ecbe7b>%cpu%</fc> <fc=#666666>|</fc>  <fc=#ff6c6b>%memory%</fc> <fc=#666666>|</fc> %enp0s31f6% <fc=#666666>|</fc> %date%"
+       , template = "%UnsafeStdinReader% }{  <fc=#666666>|</fc>  %uname% <fc=#666666>|</fc>  <fc=#ecbe7b>%cpu%</fc> <fc=#666666>|</fc>  <fc=#ff6c6b>%memory%</fc> <fc=#666666>|</fc> %wlan0wi% <fc=#666666>|</fc> %battery% <fc=#666666>|</fc> %date%"
        }
