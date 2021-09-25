@@ -1,30 +1,48 @@
 -- http://projects.haskell.org/xmobar/
-Config { font    = "xft:mononoki Bold Nerd Font:weight=bold:pixelsize=10"
+Config { font     = "xft:mononoki Bold Nerd Font:weight=bold:pixelsize=10",
+       , bgColor  = "#282c34"
+       , position = TopW L 100
        , commands = [
+                    -- Weather
+                    Run Weather "EDDH"
+                        [ "--template", "<weather> <tempC>°C"
+                        , "-L", "0"
+                        , "-H", "25"
+                        , "--low" , "lightblue"
+                        , "--high", "red"
+                        ] 36000
                     -- Time and date
-                      Run Date "%b %d %Y - %H:%M" "date" 50
+                    , Run Date "%b %d %Y - %H:%M" "date" 50
                     -- Cpu usage in percent
-                    , Run Cpu ["-t", "cpu: (<total>%)","-H","50","--high","red"] 20
+                    , Run Cpu
+                        [ "-t"
+                        , "cpu: (<total>%)","-H","50","--high","red"
+                        ] 20
                     -- Ram used number and percent
-                    , Run Memory ["-t", "mem: <used>M (<usedratio>%)"] 20
+                    , Run Memory
+                        [ "-t"
+                        , "mem: <used>M (<usedratio>%)"
+                        ] 20
                     -- Runs a standard shell command 'uname -r' to get kernel version
                     , Run Com "uname" ["-r"] "" 3600
                     -- wired network
                     -- , Run Network "eth0" [ "-S", "True", "-t", "net: <rx> | <tx>" ] 20
                     -- wifi
-                    , Run Wireless "wlan0" [ "-t", "net: <essid> <quality>%" ] 5
+                    , Run Wireless "wlan0"
+                        [ "-t"
+                        , "net: <essid> <quality>%"
+                        ] 5
                     -- battery
-                    , Run Battery [
-                        "-t", "<acstatus>: <left>%",
-                        "--",
-                        --"-c", "charge_full",
-                        "-O", "ac",
-                        "-o", "bat",
-                        "-h", "green",
-                        "-l", "red"
-                    ] 60
+                    , Run Battery
+                        [ "-t", "<acstatus>: <left>%"
+                        , "--"
+                        , "-O", "ac"
+                        , "-o", "bat"
+                        , "-h", "green"
+                        , "-l", "red"
+                        ] 60
                     , Run UnsafeStdinReader
                     ]
        , alignSep = "}{"
-       , template = "%UnsafeStdinReader% }{  <fc=#666666>|</fc>  %uname% <fc=#666666>|</fc>  <fc=#ecbe7b>%cpu%</fc> <fc=#666666>|</fc>  <fc=#ff6c6b>%memory%</fc> <fc=#666666>|</fc> %wlan0wi% <fc=#666666>|</fc> %battery% <fc=#666666>|</fc> %date%"
+       , template = "%UnsafeStdinReader% }{  <fc=#666666>|</fc>  %uname% <fc=#666666>|</fc>  <fc=#ecbe7b>%cpu%</fc> <fc=#666666>|</fc>  <fc=#ff6c6b>%memory%</fc> <fc=#666666>|</fc> %wlan0wi% <fc=#666666>|</fc> %battery% <fc=#666666>|</fc> %EDDH% <fc=#666666>|</fc> %date%"
        }

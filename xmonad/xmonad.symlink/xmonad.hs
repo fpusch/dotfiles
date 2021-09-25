@@ -17,7 +17,8 @@ import qualified Data.Map as M
 
 -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, ToggleStruts(..))
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
 import XMonad.Hooks.SetWMName
 
@@ -25,6 +26,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
 
 -- Layouts modifiers
 import XMonad.Layout.LayoutModifier
@@ -47,6 +49,7 @@ import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.SpawnOnce
+import XMonad.Util.Ungrab
 
 myFont :: String
 myFont = "xft:mononoki-Regular Nerd Font Complete Mono:size=9:antialias=true:hinting=true"
@@ -72,8 +75,9 @@ myFocusColor  = "#46d9ff"   -- Border color of focused windows
 myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "picom &"
-    spawnOnce "nm-applet &"
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 22 &"
+    -- spawnOnce "nm-applet &"
+    spawnOnce "xscreensaver --no-splash &"
+    --  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --tint 0x282c34 --transparent true --alpha 0 --height 15 &"
     spawnOnce "feh --randomize --bg-fill ~/wallpapers/*"  -- feh set random wallpaper
     setWMName "LG3D"
 
@@ -96,6 +100,7 @@ mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
 -- Layouts
 tall     = renamed [Replace "tall"]
            $ smartBorders
+           -- $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
@@ -103,17 +108,19 @@ tall     = renamed [Replace "tall"]
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
+           -- $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 20 Full
-grid     = renamed [Replace "grid"]
+threeCol = renamed [Replace "threeCol"]
            $ smartBorders
+           -- $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
-           $ limitWindows 12
+           $ limitWindows 7
            $ mySpacing 4
-           $ mkToggle (single MIRROR)
-           $ Grid (16/10)
+           $ magnifiercz' 1.3
+           $ ThreeCol 1 (3/100) (1/2)
 
 -- setting colors for tabs layout and tabs sublayout.
 myTabTheme = def { fontName            = myFont
@@ -140,7 +147,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange
              where
                myDefaultLayout =     withBorder myBorderWidth tall
                                  ||| noBorders monocle
-                                 ||| grid
+                                 ||| threeCol
 
 myWorkspaces = ["www", "music", "dev", "game", "5", "6", "7", "8", "mail"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
@@ -166,9 +173,16 @@ myKeys =
 
     -- Run prompt
         , ("M-p", spawn "dmenu_run -i -p \"Run: \"")    -- Dmenu
+        , ("M-S-p", spawn "/home/fpusch/bin/dm-logout")
 
     -- Run application
         , ("M-<Return>", spawn (myTerminal))
+
+    -- Lock Screen
+        , ("M-S-z", spawn "slock") -- Lock screen with slock
+
+    -- Screenshot
+        , ("M-S-f", unGrab *> spawn "scrot -s")
 
     -- Kill windows
         , ("M-S-c", kill1)                              -- Kill the currently focused client
@@ -195,6 +209,9 @@ myKeys =
         , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
         , ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts) -- toggle fullscreen on / off
 
+    -- Scratchpad
+        , ("M-s t", namedScratchpadAction myScratchPads "terminal")
+
     -- Window resizing
         , ("M-h", sendMessage Shrink)                   -- shrink focussed window leftwards
         , ("M-l", sendMessage Expand)                   -- expand focussed window rightwards
@@ -203,6 +220,8 @@ myKeys =
         , ("<XF86AudioMute>", spawn "amixer set Master toggle")
         , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
         , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+        , ("<XF86MonBrightnessUp>", spawn "light -A 5")
+        , ("<XF86MonBrightnessDown>", spawn "light -U 5")
         ]
 
 main :: IO ()
@@ -210,8 +229,8 @@ main = do
     -- launch xmobar only on one screen
     xmproc1 <- spawnPipe "xmobar -x 0"
     -- launch xmonad
-    xmonad $ def
-        { manageHook         = myManageHook
+    xmonad $ ewmh $ def
+        { manageHook         = myManageHook <+> manageDocks
         , handleEventHook    = docksEventHook
         , modMask            = myModMask
         , terminal           = myTerminal
