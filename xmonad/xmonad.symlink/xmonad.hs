@@ -75,7 +75,7 @@ myFocusColor  = "#46d9ff"   -- Border color of focused windows
 myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "picom &"
-    -- spawnOnce "nm-applet &"
+    spawnOnce "udiskie &"
     spawnOnce "xscreensaver --no-splash &"
     --  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --tint 0x282c34 --transparent true --alpha 0 --height 15 &"
     spawnOnce "feh --randomize --bg-fill ~/wallpapers/*"  -- feh set random wallpaper
@@ -149,7 +149,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange
                                  ||| noBorders monocle
                                  ||| threeCol
 
-myWorkspaces = ["www", "music", "dev", "game", "5", "6", "7", "8", "mail"]
+myWorkspaces = ["www", "mail", "music", "coms", "dev", "6", "7", "fs", "kee"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
@@ -162,7 +162,6 @@ myManageHook = composeAll
      , className =? "notification"    --> doFloat
      , className =? "splash"          --> doFloat
      , className =? "toolbar"         --> doFloat
-     , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
      , isFullscreen -->  doFullFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -176,13 +175,13 @@ myKeys =
         , ("M-S-p", spawn "/home/fpusch/bin/dm-logout")
 
     -- Run application
-        , ("M-<Return>", spawn (myTerminal))
+        , ("M-<Return>", spawn (myTerminal))            -- Terminal
 
     -- Lock Screen
-        , ("M-S-z", spawn "slock") -- Lock screen with slock
+        , ("M-S-z", spawn "slock")                      -- Lock screen with slock
 
     -- Screenshot
-        , ("M-S-f", unGrab *> spawn "scrot -s")
+        , ("M-S-f", unGrab *> spawn "scrot -s")         -- Screenshot to home folder
 
     -- Kill windows
         , ("M-S-c", kill1)                              -- Kill the currently focused client
