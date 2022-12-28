@@ -95,6 +95,7 @@ source ~/.aliases
 export PATH=~/bin/neovim/bin:$PATH
 # others
 export PATH=~/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
 
 # nvm
  export NVM_DIR="$HOME/.nvm"
