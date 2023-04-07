@@ -6,3 +6,4 @@ xmonad/xmonad.symlink/*
 !xmonad/xmonad.symlink/xmonad.hs
 TODO.md
 .netrwhist
+vim/vim.symlink/plugin/packer_compiled.lua

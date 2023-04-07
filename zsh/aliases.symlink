@@ -2,7 +2,6 @@ alias mkdir='mkdir -p'
 alias g='git'
 alias gs='git status -sb'
 alias ll='ls -lah'
-alias fd="fdfind"
 
 # dummy file extraction, i can never remember these
 ex ()
