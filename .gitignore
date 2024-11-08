@@ -1,7 +1,7 @@
 !bin
 vim/vim.symlink/plugged
 vim/vim.symlink/undodir
-vim/vim.symlink/plugin/packger_compiled.lua
+vim/vim.symlink/plugin/packer_compiled.lua
 git/gitconfig.symlink
 xmonad/xmonad.symlink/*
 !xmonad/xmonad.symlink/xmonad.hs
