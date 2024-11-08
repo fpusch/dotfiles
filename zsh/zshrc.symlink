@@ -96,6 +96,7 @@ export PATH=~/bin/neovim/bin:$PATH
 # others
 export PATH=~/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/fpusch/go/bin
 
 # nvm
  export NVM_DIR="$HOME/.nvm"
@@ -116,3 +117,5 @@ export PATH=$PATH:/usr/local/go/bin
 #    fi
 #fi
 #unset __conda_setup
+
+source <(kubectl completion zsh)
